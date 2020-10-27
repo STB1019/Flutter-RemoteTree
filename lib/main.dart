@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '__init__.dart' as commons_widgets;
 
@@ -7,7 +6,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,21 +29,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Map<String, List<String>> dataTest = {"Informatica":["Vai alla prima lezione 1", "2", "3", "4"],
-  "Matematica 1":["Vai alla prima lezione 1", "2", "3", "4"], "Matematica 2":["Vai alla prima lezione 1", "2", "3", "4"]};
+
+  //Simulazione dataset fornito da un DB -> Manca la differenziazione
+  // fra le varie tipologie di sezione
+
+  Map<String, List<String>> dataTest = {
+    "Informatica": ["Vai alla prima lezione 1", "2", "3", "4"],
+    "Matematica 1": ["Vai alla prima lezione 1", "2", "3", "4"],
+    "Matematica 2": ["Vai alla prima lezione 1", "2", "3", "4"]
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:Text(widget.title),
-        centerTitle: true,
-      ),
-      body: ListView.builder(itemCount: dataTest.keys.length ,itemBuilder: (context, index) {
-        var currentElementKey = dataTest.keys.toList()[index];
-        var element = dataTest[currentElementKey];
-        return commons_widgets.genericSection(currentElementKey, element);
-      })
-    );
+        drawer: Drawer(),
+        //Ho provato ad usare una appBar personalizzata leggermente curva
+        appBar: commons_widgets.generateMyAppBar(widget.title),
+        body: ListView.builder(
+            itemCount: dataTest.keys.length,
+            itemBuilder: (context, index) {
+              var currentElementKey = dataTest.keys.toList()[index];
+              var element = dataTest[currentElementKey];
+              return commons_widgets.genericSection(currentElementKey, element);
+            }));
   }
 }

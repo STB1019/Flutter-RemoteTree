@@ -1,13 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+//Ancora da migliorare
 Widget genericButton(String id) {
   return FlatButton(
     onPressed: () => print("Bottone generico premuto: $id"),
     child: genericText(id),
   );
 }
-
+//Ancora da migliorare
 Widget genericText(String str, {bool bold = false}) {
   return Text(
     str,
@@ -20,6 +20,7 @@ Widget genericText(String str, {bool bold = false}) {
   );
 }
 
+//Test per l'uso dei Widget per ideare un'ipotetica sezione
 Widget genericSection(String title, List<String> subtitles) {
   Widget titolo = genericText(title, bold: true);
   List<Widget> widgets = new List<Widget>();
