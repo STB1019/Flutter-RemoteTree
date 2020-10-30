@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:remote_tree/Model/sezione.dart';
 //Ancora da migliorare
 Widget genericButton(String id) {
   return FlatButton(
@@ -21,8 +21,11 @@ Widget genericText(String str, {bool bold = false}) {
 }
 
 //Test per l'uso dei Widget per ideare un'ipotetica sezione
-Widget genericSection(String title, List<String> subtitles) {
-  Widget titolo = genericText(title, bold: true);
+Widget genericSection(Sezione sezione) {
+  int id = sezione.id;
+  String title = sezione.title;
+  List<String> subtitles = sezione.subtitles;
+  Widget titolo = genericText("$id : " + title, bold: true);
   List<Widget> widgets = new List<Widget>();
   subtitles.forEach((element) {
     widgets.add(Column(children: [
