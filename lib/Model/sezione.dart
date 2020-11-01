@@ -1,10 +1,10 @@
 class Sezione {
   int id;
   String title;
-  //Qui sarebbe da definire un enum/String per il tipo della sezione
-  // per ora lasciamo la sezione generica
   List<String> subtitles;
-  //Non posso immagazzinarlo
+
+  //Per ora la struttura del DB è di test -> Soluzione migliore
+  //ID Integer, Type String, Data String (Json)
 
   Sezione(this.id, this.title, {this.subtitles});
 
@@ -19,9 +19,10 @@ class Sezione {
   Map<String, dynamic> toSQL() {
     return {
       "id": this.id,
-      "title": this.title.trim(),
-      "subtitle": this.subtitles.join(
-          "###"), //Metodo per separare i sottotitoli e salvarli in un unica stringa
+      "title": this.title,
+      "subtitle": this.subtitles.join("###"),
+      //Metodo per separare i sottotitoli e salvarli in un unica stringa, tutto questo è
+      //da sostituire con un Json
     };
   }
 }
