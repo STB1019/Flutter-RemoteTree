@@ -1,7 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:remote_tree/Model/Section.dart';
+
 import '__init__.dart' as commons_widgets;
 import 'Provider/db_helper.dart' as DBMS;
-import 'package:remote_tree/Model/sezione.dart';
+
+//Import per init del DB a braccio
+import 'dart:convert';
 
 void main() {
   runApp(MyApp());
@@ -10,20 +18,16 @@ void main() {
 
 DBMS.DatabaseHelper databaseHelper;
 
-initDatabase() {
+initDatabase() async{
   //Simulazione dataset fornito da un DB -> Manca la differenziazione
   // fra le varie tipologie di sezione
   databaseHelper = DBMS.DatabaseHelper();
   //Inizializzazione DB
-  databaseHelper.initDb();
-
-  List<Sezione> sezioni = List<Sezione>();
-  sezioni.add(Sezione(1, "Informatica", subtitles: ["1", "2", "3", "4"]));
-  sezioni.add(Sezione(2, "Analisi I", subtitles: ["5", "6", "7", "8"]));
-  sezioni.add(Sezione(3, "Analisi II", subtitles: ["9", "10", "11", "12"]));
-  sezioni.add(Sezione(4, "Analisi III", subtitles: ["9", "10", "11", "12"]));
+  //Parsing json in init
+  String contents = await rootBundle.loadString('assets/sezioniDiBase.json');
+  Map<String, dynamic> res = json.decode(contents);
+  //TODO
   //Inserimento sezioni
-  sezioni.forEach((sezione) => databaseHelper.insertSection(sezione));
   print("Sezioni inserite");
 }
 
@@ -31,14 +35,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Remote Tree',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Remote Tree'),
-    );
+        title: 'Remote Tree',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: MyHomePage(title: 'Remote Tree'),
+      );
   }
 }
 
@@ -58,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //Al momento quando faccio la select * dal db mi ritorna con l'interfaccia
   //getAll() una lista di sezioni, potrei far ritornare una mappa? o una struttura diversa?
   // Avrebbe senso?
-  Future<List<Sezione>> currentData;
+  Future<List<GenericSection>> currentData;
 
   @override
   void initState() {
@@ -86,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  FutureBuilder<List<Sezione>> buildBody() {
+  FutureBuilder<List<GenericSection>> buildBody() {
     return FutureBuilder(
       future: currentData, //Necessario per evitare problemi nel caricamento
       builder: (context, snapshot) {
@@ -97,8 +101,8 @@ class _MyHomePageState extends State<MyHomePage> {
         } else if (snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {
           widgetToShow = ListView(children: [
-            for (Sezione s in snapshot.data)
-              commons_widgets.genericSection(s)
+            for (GenericSection s in snapshot.data)
+              commons_widgets.buildSection(s)
           ]);
         } else { // Dati non ancora pronti
           widgetToShow = Column(
@@ -112,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: EdgeInsets.only(top: 16),
               child: Text('Attesa risultati...', style: TextStyle(fontSize: 18.0,),),
-            )
+            ),
           ]);
         }
         return Center(

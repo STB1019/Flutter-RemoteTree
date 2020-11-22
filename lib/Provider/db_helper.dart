@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
+import 'package:remote_tree/Model/Section.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:remote_tree/Model/sezione.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = new DatabaseHelper._();
@@ -36,8 +36,8 @@ class DatabaseHelper {
         "CREATE TABLE $_tableName(id INTEGER PRIMARY KEY, title TEXT, subtitle TEXT)");
     print("Table creata");
   }
-
-  Future<int> insertSection(Sezione sezione) async {
+//Da ridefinire per inserire l'intera lista
+  Future<int> insertSection(GenericSection sezione) async {
     var dbInstance = await db; //Sto usando il getter
     int res = await dbInstance.insert(_tableName, sezione.toSQL(),
         conflictAlgorithm: ConflictAlgorithm.replace);
@@ -45,16 +45,16 @@ class DatabaseHelper {
   }
 
   Future<List<Map>> _query() async{
-    var dbInstance = await db;
+    var dbInstance = await db;//Sto usando il getter
     List<Map> res = await dbInstance.query(_tableName);
     return res;
  }
-
- Future<List<Sezione>> getAll() async{
+//Da ridefinire per ottenere l'intera lista
+ Future<List<GenericSection>> getAll() async{
     var res = await _query();
-    List<Sezione> result = List<Sezione>();
+    List<GenericSection> result = List<GenericSection>();
     res.forEach((e) {
-      result.add(new Sezione.fromMap(e));
+      result.add(GenericSection.generateClassfromJson(e));
     });
     return result;
  }
