@@ -17,15 +17,33 @@ class ListSection {
     buttonSection: List<ButtonSection>.from(json["buttonSection"].map((x) => ButtonSection.fromMap(x))),
     webSection: List<WebSection>.from(json["webSection"].map((x) => WebSection.fromMap(x))),
   );
+  factory ListSection.fromSQL(Map<String, dynamic> data) => ListSection.fromJson(data["value"]);
 
   Map<String, dynamic> toMap() => {
     "buttonSection": List<dynamic>.from(buttonSection.map((x) => x.toMap())),
     "webSection": List<dynamic>.from(webSection.map((x) => x.toMap())),
   };
+  Map<String, dynamic> toSQL() => {
+    "id" : 0,
+    "value" : this.toJson(),
+  };
+
+
+
+  List<GenericSection> getAllSections(){
+    List<GenericSection> res = new List();
+    res.addAll(buttonSection);
+    res.addAll(webSection);
+    res.sort((a, b){
+      return a.id.compareTo(b.id);
+    });
+    return res;
+  }
+
 }
 
 
-abstract class GenericSection{
+class GenericSection{
   int id;
   String title;
 }
@@ -38,7 +56,7 @@ class ButtonSection extends GenericSection {
 
   int id;
   String title;
-  List<Buttonlink> buttonlinks;
+  List<ButtonLink> buttonlinks;
 
   factory ButtonSection.fromJson(String str) => ButtonSection.fromMap(json.decode(str));
 
@@ -47,7 +65,7 @@ class ButtonSection extends GenericSection {
   factory ButtonSection.fromMap(Map<String, dynamic> json) => ButtonSection(
     id: json["id"],
     title: json["title"],
-    buttonlinks: List<Buttonlink>.from(json["buttonlinks"].map((x) => Buttonlink.fromMap(x))),
+    buttonlinks: List<ButtonLink>.from(json["buttonlinks"].map((x) => ButtonLink.fromMap(x))),
   );
 
   Map<String, dynamic> toMap() => {
@@ -55,10 +73,11 @@ class ButtonSection extends GenericSection {
     "title": title,
     "buttonlinks": List<dynamic>.from(buttonlinks.map((x) => x.toMap())),
   };
+
 }
 
-class Buttonlink {
-  Buttonlink({
+class ButtonLink {
+  ButtonLink({
     this.button,
     this.link,
   });
@@ -66,11 +85,11 @@ class Buttonlink {
   String button;
   int link;
 
-  factory Buttonlink.fromJson(String str) => Buttonlink.fromMap(json.decode(str));
+  factory ButtonLink.fromJson(String str) => ButtonLink.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Buttonlink.fromMap(Map<String, dynamic> json) => Buttonlink(
+  factory ButtonLink.fromMap(Map<String, dynamic> json) => ButtonLink(
     button: json["button"],
     link: json["link"],
   );

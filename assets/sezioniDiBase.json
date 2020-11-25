@@ -47,10 +47,6 @@
         {
           "button": "Manda a 2",
           "link" : 2
-        },
-        {
-          "button": "Manda a 3",
-          "link" : 3
         }
       ]
     }
@@ -59,12 +55,12 @@
     {
       "id": 4,
       "title" : "Bella",
-      "link" : "www.google.it"
+      "link" : "http://www.google.it"
     },
     {
       "id": 5,
       "title" : "Bella2",
-      "link" : "www.unibs.it"
+      "link" : "http://www.unibs.it"
     }
   ]
 }

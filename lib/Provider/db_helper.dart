@@ -13,7 +13,7 @@ class DatabaseHelper {
 
   static Database _db;
 
-  String _tableName = "Sezione";
+  String _tableName = "ListaSezioni";
   String _dbName = "main.db";
 
   Future<Database> get db async {
@@ -33,30 +33,28 @@ class DatabaseHelper {
 
   void _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE $_tableName(id INTEGER PRIMARY KEY, title TEXT, subtitle TEXT)");
+        "CREATE TABLE $_tableName(id INTEGER PRIMARY KEY, value TEXT)");
     print("Table creata");
   }
+
 //Da ridefinire per inserire l'intera lista
-  Future<int> insertSection(GenericSection sezione) async {
+  Future<int> insertCompleteSection(ListSection listSection) async {
     var dbInstance = await db; //Sto usando il getter
-    int res = await dbInstance.insert(_tableName, sezione.toSQL(),
+    int res = await dbInstance.insert(_tableName, listSection.toSQL(),
         conflictAlgorithm: ConflictAlgorithm.replace);
     return res;
   }
 
-  Future<List<Map>> _query() async{
+  Future<List<Map<String, dynamic>>> _query() async{
     var dbInstance = await db;//Sto usando il getter
     List<Map> res = await dbInstance.query(_tableName);
     return res;
  }
-//Da ridefinire per ottenere l'intera lista
- Future<List<GenericSection>> getAll() async{
+ //I
+ Future<ListSection> getCurrentData() async{
     var res = await _query();
-    List<GenericSection> result = List<GenericSection>();
-    res.forEach((e) {
-      result.add(GenericSection.generateClassfromJson(e));
-    });
-    return result;
+    var result = res.first;
+    return ListSection.fromSQL(result);
  }
 
 }

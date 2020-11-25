@@ -25,9 +25,10 @@ initDatabase() async{
   //Inizializzazione DB
   //Parsing json in init
   String contents = await rootBundle.loadString('assets/sezioniDiBase.json');
-  Map<String, dynamic> res = json.decode(contents);
+  var listSections = ListSection.fromJson(contents);
   //TODO
   //Inserimento sezioni
+  databaseHelper.insertCompleteSection(listSections);
   print("Sezioni inserite");
 }
 
@@ -62,12 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
   //Al momento quando faccio la select * dal db mi ritorna con l'interfaccia
   //getAll() una lista di sezioni, potrei far ritornare una mappa? o una struttura diversa?
   // Avrebbe senso?
-  Future<List<GenericSection>> currentData;
+  Future<ListSection> currentData;
 
   @override
   void initState() {
     super.initState();
-    currentData = databaseHelper.getAll();
+    currentData = databaseHelper.getCurrentData();
   }
 
   @override
@@ -75,12 +76,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       //Ho provato ad usare una appBar personalizzata leggermente curva
       appBar: AppBar(
+        centerTitle: true,
         title: Text(widget.title),
         actions: [
           IconButton(icon: Icon(Icons.update), onPressed: (){
             setState(() {
               //Update del DB
-              currentData = databaseHelper.getAll();
+              currentData = databaseHelper.getCurrentData();
             });
           })
         ],
@@ -90,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  FutureBuilder<List<GenericSection>> buildBody() {
+  FutureBuilder<ListSection> buildBody() {
     return FutureBuilder(
       future: currentData, //Necessario per evitare problemi nel caricamento
       builder: (context, snapshot) {
@@ -101,8 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
         } else if (snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {
           widgetToShow = ListView(children: [
-            for (GenericSection s in snapshot.data)
-              commons_widgets.buildSection(s)
+            for (GenericSection s in snapshot.data.getAllSections())
+              commons_widgets.buildSection(context, s)
           ]);
         } else { // Dati non ancora pronti
           widgetToShow = Column(
