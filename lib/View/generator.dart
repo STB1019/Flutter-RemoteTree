@@ -27,13 +27,14 @@ Widget genericText(String str, {bool bold = false}) {
 Widget listTileFromSection(String title, Icon icon, Function onTap) {
   return Card(
       child: ListTile(
+        tileColor: Colors.deepOrangeAccent[100],
         title: Center(child: genericText(title)),
         leading: icon,
         onTap: onTap,
       ));
 }
 
-
+//Costruisce il body della HomePage fornita la lista di sezioni
 List<Widget> buildHome(BuildContext cx, List<GenericSection> list) {
   var widgets = List<Widget>();
   widgets.add(Padding(

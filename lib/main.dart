@@ -57,12 +57,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //Potrei provare con gli Inherited Widgets molto fighi
-  // da quello che so o usando dei provider
-
   //Al momento quando faccio la select * dal db mi ritorna con l'interfaccia
   //getAll() una lista di sezioni, potrei far ritornare una mappa? o una struttura diversa?
-  // Avrebbe senso?
+  // Avrebbe senso? -> TODO Mettere InheritedWidgets
   Future<ListSection> currentData;
 
   @override
@@ -74,6 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.greenAccent,
       //Ho provato ad usare una appBar personalizzata leggermente curva
       appBar: AppBar(
         centerTitle: true,
