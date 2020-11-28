@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:remote_tree/Model/Section.dart';
+import 'package:remote_tree/View/SectionPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //Ancora da migliorare
@@ -22,59 +23,52 @@ Widget genericText(String str, {bool bold = false}) {
     overflow: TextOverflow.ellipsis,
   );
 }
-
-//Crea una sezione dato contesto e file del model
-
-Widget buildSection(BuildContext context, GenericSection sezione) {
-  if (sezione is ButtonSection){
-  int id = sezione.id;
-  String title = sezione.title;
-  List<ButtonLink> subtitles = sezione.buttonlinks;
-
-  //titolo
-  Widget titolo = genericText("$id : " + title, bold: true);
-
-
-  List<Widget> widgets = new List<Widget>();
-  subtitles.forEach((element) {
-    widgets.add(FlatButton(
-      color: Colors.deepPurple[300],
-            onPressed: () {
-              print("TODO Manda alla sezione nr ${element.link}");
-            },
-            child: genericText(element.button)));
-  });
-  widgets.insert(0, Divider());
-  widgets.insert(0, titolo);
+//TODO aggiornare per nuove tipologie di sezione
+Widget listTileFromSection(String title, Icon icon, Function onTap) {
   return Card(
-    color: Colors.deepPurple[100],
-    margin: EdgeInsets.all(10.0),
-    child: InkWell(
-      splashColor: Colors.pink,
-      onLongPress: (){
-        print("TODO: Manda a detailedSezione");
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: widgets,
-        ),
+      child: ListTile(
+        title: Center(child: genericText(title)),
+        leading: icon,
+        onTap: onTap,
+      ));
+}
+
+
+List<Widget> buildHome(BuildContext cx, List<GenericSection> list) {
+  var widgets = List<Widget>();
+  widgets.add(Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: Text(
+      "Elenco Sezioni",
+      style: TextStyle(
+        fontSize: 25.0,
+        fontWeight: FontWeight.bold,
+        fontStyle: FontStyle.italic,
       ),
     ),
-  );}
-  else if (sezione is WebSection){
-    return Card(
-      color: Colors.orange[100],
-      margin: EdgeInsets.all(10.0),
-      child: InkWell(
-        child: Container(height: 100, child: Center(child: genericText(sezione.title, )),),
-        onTap: () async{
-          if(await canLaunch(sezione.link))
-            await launch(sezione.link);
-
-          }
-      )
-    );
-  }
-  return Container(child: Center(child: Text("ERROR"),),);
+  ));
+  widgets.add(Divider());
+  list.forEach((section) {
+    if (section is ButtonSection) {
+      widgets.add(listTileFromSection(
+          section.title,
+          Icon(Icons.book),
+          () => Navigator.push(
+                cx,
+                MaterialPageRoute(builder: (cx) {
+                  return ButtonSectionPage(section);
+                }),
+              )));
+    } else if (section is WebSection) {
+      widgets.add(listTileFromSection(
+          section.title, Icon(Icons.open_in_browser), () async {
+        Scaffold.of(cx).showSnackBar(
+            SnackBar(content: Text("Apertura link nel browser predefinito")));
+        if (await canLaunch(section.link)) await launch(section.link);
+      }));
+    } else {
+      return null;
+    }
+  });
+  return widgets;
 }

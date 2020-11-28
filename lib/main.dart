@@ -102,10 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
           print(snapshot.error);
         } else if (snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {
-          widgetToShow = ListView(children: [
-            for (GenericSection s in snapshot.data.getAllSections())
-              commons_widgets.buildSection(context, s)
-          ]);
+          widgetToShow = ListView(children:
+              commons_widgets.buildHome(context, snapshot.data.getAllSections())
+         );
         } else { // Dati non ancora pronti
           widgetToShow = Column(
             mainAxisAlignment:MainAxisAlignment.center ,
