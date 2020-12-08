@@ -6,15 +6,15 @@
       "buttonlinks": [
         {
           "button": "Manda a 1",
-          "link": 1
+          "link": "1"
         },
         {
           "button": "Manda a 2",
-          "link": 2
+          "link": "2"
         },
         {
           "button": "Manda a 3",
-          "link": 3
+          "link": "3"
         }
       ]
     },
@@ -24,15 +24,15 @@
       "buttonlinks" : [
         {
           "button": "Manda a 1",
-          "link" : 1
+          "link" : "1"
         },
         {
           "button": "Manda a 2",
-          "link" : 2
+          "link" : "2"
         },
         {
           "button": "Manda a 3",
-          "link" : 3
+          "link" : "3"
         }
       ]
     },
@@ -42,11 +42,11 @@
       "buttonlinks" : [
         {
           "button": "Manda a 1",
-          "link" : 1
+          "link" : "1"
         },
         {
           "button": "Manda a 2",
-          "link" : 2
+          "link" : "2"
         }
       ]
     }
@@ -66,6 +66,18 @@
       "id" : 6,
       "title" : "Form presenza Branch",
       "link" : "https://forms.gle/sgegCQ1nEUGtyZBf9"
+    }
+  ],
+  "imageSection" : [
+    {
+      "id" : 7,
+      "title" : "Immagine1",
+      "imagelink" : "https://source.unsplash.com/random/300x200"
+    },
+    {
+      "id" : 8,
+      "title" : "Immagine2",
+      "imagelink" : "https://source.unsplash.com/random/300x200"
     }
   ]
 }

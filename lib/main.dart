@@ -23,7 +23,7 @@ initDatabase() async{
   // fra le varie tipologie di sezione
   databaseHelper = DBMS.DatabaseHelper();
   //Inizializzazione DB
-  //Parsing json in init
+  //Parsing json in init -> ogni volta il db viene ri-inizializzato
   String contents = await rootBundle.loadString('assets/sezioniDiBase.json');
   var listSections = ListSection.fromJson(contents);
   //TODO
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         title: 'Remote Tree',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
+          primarySwatch: Colors.indigo,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: MyHomePage(title: 'Remote Tree'),
@@ -71,17 +71,37 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.greenAccent,
+      backgroundColor: Color(0xFFE5D1FE),
       //Ho provato ad usare una appBar personalizzata leggermente curva
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Colors.indigo,
         title: Text(widget.title),
+        leading: IconButton(icon: Icon(Icons.info), onPressed:(){
+          showDialog(
+              context: context,
+              builder: (_) => new AlertDialog(
+                title: new Text("Remote Tree"),
+                content: Text("Questa applicazione si interfaccia "
+                    "con un file json per specificare "
+                    "una serie di sezioni adibite a scopi vari"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Chiudi'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ));
+        }),
         actions: [
           IconButton(icon: Icon(Icons.update), onPressed: (){
             setState(() {
               //Update del DB
               currentData = databaseHelper.getCurrentData();
             });
+
           })
         ],
       ),
@@ -96,31 +116,31 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (context, snapshot) {
         Widget widgetToShow;
         if (snapshot.hasError) {
-          widgetToShow = Text("Errore nell'inizializzazione del DB");
+          widgetToShow = Center(child: Text("Errore nell'inizializzazione del DB \n Si prega ti premere il bottone in alto a destra per aggiornare"));
           print(snapshot.error);
         } else if (snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {
-          widgetToShow = ListView(children:
-              commons_widgets.buildHome(context, snapshot.data.getAllSections())
+          widgetToShow = Card(elevation: 5,child: ListView(shrinkWrap: true,children:
+              commons_widgets.buildHome(context, snapshot.data.getAllSections()))
          );
         } else { // Dati non ancora pronti
-          widgetToShow = Column(
-            mainAxisAlignment:MainAxisAlignment.center ,
-              children: [
-            SizedBox(
-              child: CircularProgressIndicator(),
-              width: 60,
-              height: 60,
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 16),
-              child: Text('Attesa risultati...', style: TextStyle(fontSize: 18.0,),),
-            ),
-          ]);
+          widgetToShow = Center(
+            child: Column(
+              mainAxisAlignment:MainAxisAlignment.center ,
+                children: [
+              SizedBox(
+                child: CircularProgressIndicator(),
+                width: 60,
+                height: 60,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: Text('Attesa risultati...', style: TextStyle(fontSize: 18.0,),),
+              ),
+            ]),
+          );
         }
-        return Center(
-          child: widgetToShow,
-        );
+        return widgetToShow;
       },
     );
   }

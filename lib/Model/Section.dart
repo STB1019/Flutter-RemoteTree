@@ -4,10 +4,12 @@ class ListSection {
   ListSection({
     this.buttonSection,
     this.webSection,
+    this.imageSection,
   });
 
   List<ButtonSection> buttonSection;
   List<WebSection> webSection;
+  List<ImageSection> imageSection;
 
   factory ListSection.fromJson(String str) => ListSection.fromMap(json.decode(str));
 
@@ -16,12 +18,14 @@ class ListSection {
   factory ListSection.fromMap(Map<String, dynamic> json) => ListSection(
     buttonSection: List<ButtonSection>.from(json["buttonSection"].map((x) => ButtonSection.fromMap(x))),
     webSection: List<WebSection>.from(json["webSection"].map((x) => WebSection.fromMap(x))),
+    imageSection: List<ImageSection>.from(json["imageSection"].map((x)=> ImageSection.fromMap(x)))
   );
   factory ListSection.fromSQL(Map<String, dynamic> data) => ListSection.fromJson(data["value"]);
 
   Map<String, dynamic> toMap() => {
     "buttonSection": List<dynamic>.from(buttonSection.map((x) => x.toMap())),
     "webSection": List<dynamic>.from(webSection.map((x) => x.toMap())),
+    "imageSection" : List<dynamic>.from(imageSection.map((x) => x.toMap())),
   };
   Map<String, dynamic> toSQL() => {
     "id" : 0,
@@ -34,6 +38,8 @@ class ListSection {
     List<GenericSection> res = new List();
     res.addAll(buttonSection);
     res.addAll(webSection);
+    res.addAll(imageSection);
+    //TODO Aggiungere le nuove tipologie di sezione
     res.sort((a, b){
       return a.id.compareTo(b.id);
     });
@@ -83,7 +89,7 @@ class ButtonLink {
   });
 
   String button;
-  int link;
+  String link;
 
   factory ButtonLink.fromJson(String str) => ButtonLink.fromMap(json.decode(str));
 
@@ -125,5 +131,33 @@ class WebSection extends GenericSection {
     "id": id,
     "title": title,
     "link": link,
+  };
+}
+
+class ImageSection extends GenericSection {
+  ImageSection({
+    this.id,
+    this.title,
+    this.imagelink,
+  });
+
+  int id;
+  String title;
+  String imagelink;
+
+  factory ImageSection.fromJson(String str) => ImageSection.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory ImageSection.fromMap(Map<String, dynamic> json) => ImageSection(
+    id: json["id"],
+    title: json["title"],
+    imagelink: json["imagelink"],
+  );
+
+  Map<String, dynamic> toMap() => {
+    "id": id,
+    "title": title,
+    "imagelink": imagelink,
   };
 }

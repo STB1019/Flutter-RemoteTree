@@ -20,12 +20,10 @@ class _ButtonSectionPageState extends State<ButtonSectionPage> {
           fontWeight: FontWeight.bold,
           fontSize: 30.0,
         )));
-    var children = List<Widget>();
-    children.add(title);
-    children.add(Divider());
+    var buttons = List<Widget>();
     section.buttonlinks.forEach((element) {
-      children.add(FlatButton(
-            color: Colors.purple,
+      buttons.add(FlatButton(padding: EdgeInsets.all(30.0),
+            color: Color(0xFF8C3CFF),
             onPressed: () {
               print("TODO Manda alla sezione nr ${element.link}");
             },
@@ -34,11 +32,21 @@ class _ButtonSectionPageState extends State<ButtonSectionPage> {
     });
     return Scaffold(
       appBar: AppBar(),
-      backgroundColor: Colors.greenAccent,
+      backgroundColor: Color(0xFFE5D1FE),
       body: Card(
-        color: Colors.deepOrangeAccent[100],
+        elevation: 8,
+        color: Color(0xFFB989FF),
         margin: EdgeInsets.all(10.0),
-        child: Center(child: Column(children: children)),
+        child: Column(
+          children: [
+            title,
+            Divider(),
+            Expanded(
+              child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: buttons),
+            ),
+          ],
+        )
       ),
     );
   }
