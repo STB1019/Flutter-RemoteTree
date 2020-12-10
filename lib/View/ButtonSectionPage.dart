@@ -23,6 +23,7 @@ class _ButtonSectionPageState extends State<ButtonSectionPage> {
     var buttons = List<Widget>();
     section.buttonlinks.forEach((element) {
       buttons.add(FlatButton(padding: EdgeInsets.all(30.0),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
             color: Color(0xFF8C3CFF),
             onPressed: () {
               print("TODO Manda alla sezione nr ${element.link}");
@@ -34,9 +35,9 @@ class _ButtonSectionPageState extends State<ButtonSectionPage> {
       appBar: AppBar(),
       backgroundColor: Color(0xFFE5D1FE),
       body: Card(
-        elevation: 8,
-        color: Color(0xFFB989FF),
-        margin: EdgeInsets.all(10.0),
+        elevation: 4,
+        margin: EdgeInsets.all(30),
+        color: Color(0xFF34ace0),
         child: Column(
           children: [
             title,

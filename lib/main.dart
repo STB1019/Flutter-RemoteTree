@@ -120,9 +120,12 @@ class _MyHomePageState extends State<MyHomePage> {
           print(snapshot.error);
         } else if (snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {
-          widgetToShow = Card(elevation: 5,child: ListView(shrinkWrap: true,children:
-              commons_widgets.buildHome(context, snapshot.data.getAllSections()))
-         );
+          widgetToShow = Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Card(elevation: 5,child: ListView(shrinkWrap: true,children:
+                commons_widgets.buildHome(context, snapshot.data.getAllSections()))
+         ),
+          );
         } else { // Dati non ancora pronti
           widgetToShow = Center(
             child: Column(

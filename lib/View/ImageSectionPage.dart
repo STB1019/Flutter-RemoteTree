@@ -31,40 +31,28 @@ class _ImageSectionPageState extends State<ImageSectionPage> {
     return Scaffold(
       appBar: AppBar(),
       backgroundColor: Color(0xFFE5D1FE),
-      body: Card(
-          elevation: 8,
-          color: Color(0xFFB989FF),
-          margin: EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              title,
-              Divider(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Center(
+        child: Card(
+            elevation: 4,
+            color: Color(0xFFB989FF),
+            margin: EdgeInsets.all(30),
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    child: Image.network(
-                      imgLink,
-                      key: ValueKey(imgLink),
-                      fit: BoxFit.cover,
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        );
-                      },
-                    ),
+                  title,
+                  Divider(),
+                  CachedNetworkImage(
+                    imageUrl: imgLink,
+                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                        CircularProgressIndicator(value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ],
               ),
-            ],
-          )),
+            )),
+      ),
     );
   }
 }
