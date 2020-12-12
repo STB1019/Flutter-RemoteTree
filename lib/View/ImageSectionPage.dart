@@ -25,16 +25,16 @@ class _ImageSectionPageState extends State<ImageSectionPage> {
         padding: EdgeInsets.all(12),
         child: Text(section.title,
             style: TextStyle(
+              color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 30.0,
             )));
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(),
-      backgroundColor: Color(0xFFE5D1FE),
       body: Center(
         child: Card(
             elevation: 4,
-            color: Color(0xFFB989FF),
             margin: EdgeInsets.all(30),
             child: Padding(
               padding: const EdgeInsets.all(30.0),
