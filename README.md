@@ -1,6 +1,6 @@
 # remote_tree
 
-Questa applicazione è stata sviluppata come un test del framework Flutter. La sua utilità è generare automaticamente una struttura di widgets da un file .json
+Questa applicazione è stata sviluppata come un test del framework Flutter. La sua utilità è generare automaticamente una struttura di widgets da un file .json.
 
 ## Cosa supporta?
 
