@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:remote_tree/Model/Section.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,22 +32,43 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       //Ho provato ad usare una appBar personalizzata leggermente curva
-      drawer: Drawer(
-        child: buildDrawer(context),
-      ),
+      //drawer: Drawer(        child: buildDrawer(context),      ),
       appBar: AppBar(
-        centerTitle: true,
         title: Text("Remote Tree"),
         actions: [
-          IconButton(
-              icon: Icon(Icons.update),
-              onPressed: () {
-                setState(() {
-                  //Update del DB
-                  currentData =
-                      DataProvider.of(context).databaseHelper.getCurrentData();
-                });
-              })
+          PopupMenuButton<String>(
+              padding: EdgeInsets.zero,
+              color: Colors.white,
+              icon: Icon(Icons.more_vert),
+              itemBuilder: (BuildContext context) {
+                var list = List<PopupMenuItem<String>>();
+                list.add(PopupMenuItem(
+                    child: ListTile(
+                  trailing: Icon(Icons.sync),
+                  title: Text("Aggiorna"),
+                  onTap: () {
+                    setState(() {
+                      //Update del DB
+                      currentData = DataProvider.of(context)
+                          .databaseHelper
+                          .getCurrentData();
+                    });
+                  },
+                )));
+                list.add(PopupMenuItem(
+                    child: ListTile(
+                  trailing: Icon(Icons.settings),
+                  title: Text("Impostazioni"),
+                  onTap: () {
+                    Scaffold.of(context)
+                        .showSnackBar(SnackBar(content: Text("TODO"), action: SnackBarAction(
+                      label: "Chiudi",
+                      onPressed: ()=> Scaffold.of(context).hideCurrentSnackBar(),
+                    ),duration: Duration(seconds: 1),));
+                  },
+                )));
+                return list;
+              }),
         ],
       ),
       //Per ora corrisponde solo ad un body con una serie di sezioni
@@ -52,8 +76,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  FutureBuilder<ListSection> buildBody() {
-    return FutureBuilder(
+  Widget buildBody() {
+    var sectionCard = FutureBuilder(
       future: currentData, //Necessario per evitare problemi nel caricamento
       builder: (context, snapshot) {
         Widget widgetToShow;
@@ -68,16 +92,16 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.all(10.0),
             child: Card(
                 elevation: 5,
-                child: ListView(
-                    shrinkWrap: true,
-                    children:
-                        buildHome(context, snapshot.data.getAllSections()))),
+                child: Column(
+                    children: buildCardSection(
+                        context, snapshot.data.getAllSections()))),
           );
         } else {
           // Dati non ancora pronti
           widgetToShow = Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  SizedBox(height: 50,),
               SizedBox(
                 child: CircularProgressIndicator(),
                 width: 60,
@@ -98,10 +122,48 @@ class _HomePageState extends State<HomePage> {
         return widgetToShow;
       },
     );
+    return ListView(
+      children: [
+        Container(
+          height: 250,
+          child: Card(
+            color: Colors.white70,
+            child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        CircleAvatar(
+          radius: 50.0,
+          backgroundImage: NetworkImage("https://placekitten.com/200/300"),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Text(
+            "Massimiliano Tummolo",
+            style: TextStyle(
+                fontSize: 20.0, fontWeight: FontWeight.w700,),
+        ),
+        SizedBox(
+            height: 5.0,
+        ),
+        Text(
+            "Amministratore",
+            style: TextStyle(
+                fontSize: 15.0, fontWeight: FontWeight.normal,),
+        ),
+      ],
+            ),
+          ) ,
+        ),
+        sectionCard,
+      ],
+    );
   }
 }
 
 //Helper functions
+
+//Inutile
 ListView buildDrawer(BuildContext context) {
   return ListView(
     padding: EdgeInsets.zero,
@@ -109,11 +171,15 @@ ListView buildDrawer(BuildContext context) {
       UserAccountsDrawerHeader(
         accountName: Text("Massimiliano Tummolo"),
         accountEmail: Text("max.tummolo@gmail.com"),
-        currentAccountPicture: CircleAvatar(backgroundColor: Theme.of(context).backgroundColor, child: Text("M"),),
+        currentAccountPicture: CircleAvatar(
+          backgroundColor: Theme.of(context).backgroundColor,
+          child: Text("M"),
+        ),
       ),
-      ListTile(title: Text("HomePage")),
-      ListTile(title: Text("Settings"), trailing: Icon(Icons.settings),
-          onTap: ()=> Navigator.of(context).pushNamed("/settings"))
+      ListTile(
+          title: Text("Settings"),
+          trailing: Icon(Icons.settings),
+          onTap: () => Navigator.of(context).pushNamed("/settings"))
     ],
   );
 }
@@ -136,7 +202,7 @@ Widget listTileFromSection(String title, Icon icon, Function onTap) {
 }
 
 //Costruisce il body della HomePage fornita la lista di sezioni
-List<Widget> buildHome(BuildContext cx, List<GenericSection> list) {
+List<Widget> buildCardSection(BuildContext cx, List<GenericSection> list) {
   var widgets = List<Widget>();
 
   widgets.add(Padding(
@@ -155,6 +221,8 @@ List<Widget> buildHome(BuildContext cx, List<GenericSection> list) {
 
   widgets.add(Divider());
 
+  //TODO questa parte si può modificare
+  // aggiungendo dati alle sezioni per immagazzinare roba
   list.forEach((section) {
     if (section is ButtonSection) {
       widgets.add(listTileFromSection(
@@ -179,7 +247,9 @@ List<Widget> buildHome(BuildContext cx, List<GenericSection> list) {
         Scaffold.of(cx).showSnackBar(SnackBar(
             duration: Duration(seconds: 1),
             content: Text("Apertura link nel browser predefinito")));
-        if (await canLaunch(section.link)) await launch(section.link);
+        if (await canLaunch(section.link)) {
+          await launch(section.link);
+        }
       }));
     } else if (section is ImageSection) {
       widgets.add(listTileFromSection(

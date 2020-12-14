@@ -6,15 +6,15 @@
       "buttonlinks": [
         {
           "button": "Manda a 1",
-          "link": "1"
+          "link": "Image#https://source.unsplash.com/random/300x200"
         },
         {
           "button": "Manda a 2",
-          "link": "2"
+          "link": "Image#https://source.unsplash.com/random/300x200"
         },
         {
           "button": "Manda a 3",
-          "link": "3"
+          "link": "Web#https://lol.com"
         }
       ]
     },

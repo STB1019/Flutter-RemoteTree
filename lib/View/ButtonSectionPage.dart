@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:remote_tree/Model/Section.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'ImageSectionPage.dart';
 import 'generator.dart';
 
 //Per ora funziona solo per una tipologia di sezione
@@ -27,7 +29,24 @@ class _ButtonSectionPageState extends State<ButtonSectionPage> {
             color: Theme.of(context).buttonColor,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
             onPressed: () {
-              print("TODO Manda alla sezione nr ${element.link}");
+              //TODO MODIFICARE PARSER
+              String data = element.link;
+              var sectionToGo;
+              List<String> l = data.split("#");
+              switch (l[0]){
+                case "Image" :
+                  sectionToGo = ImageSection(id: 1, title: element.button, imagelink: l[1]);
+                  Navigator.push(context,  MaterialPageRoute(builder: (cx) {
+                    return ImageSectionPage(sectionToGo);
+                  }));
+                  break;
+                case "Web" :
+                  sectionToGo = WebSection(id: 1, title: element.button, link: l[1]);
+                  launch(l[1]);
+                  break;
+                default: sectionToGo = null;
+              }
+
             },
             child: genericText(element.button)),
       );
