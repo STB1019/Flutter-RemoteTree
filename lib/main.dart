@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:remote_tree/Model/Section.dart';
+import 'package:remote_tree/View/LoginPage.dart';
+import 'package:remote_tree/View/PDFSectionPage.dart';
 
-import 'View/HomePage.dart';
 import 'Provider/db_helper.dart' as DBMS;
 import 'View/DataProvider.dart';
+import 'View/HomePage.dart';
 import 'View/SettingsPage.dart';
 
 void main() {
@@ -26,7 +28,6 @@ initDatabase() async{
   //Parsing json in init -> TODO ogni volta il db viene ri-inizializzato
   String contents = await rootBundle.loadString('assets/sezioniDiBase.json');
   var listSections = ListSection.fromJson(contents);
-  //TODO
   //Inserimento sezioni
   databaseHelper.initDb();
   databaseHelper.insertCompleteSection(listSections);
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
               "/home" : (context) => HomePage(),
               "/settings" : (context) => SettingsPage(),
           },
-          home: HomePage(),
+          home: LoginPage(),
         ),
     );
   }

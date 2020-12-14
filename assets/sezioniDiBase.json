@@ -6,47 +6,55 @@
       "buttonlinks": [
         {
           "button": "Manda a 1",
-          "link": "Image#https://source.unsplash.com/random/300x200"
+          "type" : "Image",
+          "link": "https://source.unsplash.com/random/300x200"
         },
         {
           "button": "Manda a 2",
-          "link": "Image#https://source.unsplash.com/random/300x200"
+          "type" : "Image",
+          "link": "https://source.unsplash.com/random/300x200"
         },
         {
           "button": "Manda a 3",
-          "link": "Web#https://lol.com"
+          "type" : "Web",
+          "link": "https://lol.com"
         }
       ]
     },
     {
       "id": 1,
       "title" : "Analisi 1",
-      "buttonlinks" : [
+      "buttonlinks": [
         {
           "button": "Manda a 1",
-          "link" : "1"
+          "type" : "Image",
+          "link": "https://source.unsplash.com/random/300x200"
         },
         {
           "button": "Manda a 2",
-          "link" : "2"
+          "type" : "Image",
+          "link": "https://source.unsplash.com/random/300x200"
         },
         {
           "button": "Manda a 3",
-          "link" : "3"
+          "type" : "Web",
+          "link": "https://lol.com"
         }
       ]
     },
     {
       "id": 3,
       "title" : "Analisi 2",
-      "buttonlinks" : [
+      "buttonlinks": [
         {
           "button": "Manda a 1",
-          "link" : "1"
+          "type" : "Image",
+          "link": "https://source.unsplash.com/random/300x200"
         },
         {
           "button": "Manda a 2",
-          "link" : "2"
+          "type" : "Image",
+          "link": "https://source.unsplash.com/random/300x200"
         }
       ]
     }
@@ -78,6 +86,18 @@
       "id" : 8,
       "title" : "Immagine2",
       "imagelink" : "https://source.unsplash.com/random/300x200"
+    }
+  ],
+  "pdfSection" : [
+    {
+      "id" : 9,
+      "title" : "PDF1",
+      "link" : "https://www.ibm.com/downloads/cas/GJ5QVQ7X"
+    },
+    {
+      "id" : 10,
+      "title" : "PDF2",
+      "link" : "https://drive.google.com/uc?export=download&id=12krdv_la7B9JCyUfllbmlhpzLChiOQU6"
     }
   ]
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:remote_tree/Model/Section.dart';
+import 'package:remote_tree/View/PDFSectionPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'ImageSectionPage.dart';
 import 'generator.dart';
@@ -29,20 +30,22 @@ class _ButtonSectionPageState extends State<ButtonSectionPage> {
             color: Theme.of(context).buttonColor,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
             onPressed: () {
-              //TODO MODIFICARE PARSER
-              String data = element.link;
-              var sectionToGo;
-              List<String> l = data.split("#");
-              switch (l[0]){
+            var sectionToGo;
+              switch (element.type){
                 case "Image" :
-                  sectionToGo = ImageSection(id: 1, title: element.button, imagelink: l[1]);
+                  sectionToGo = ImageSection(id: 1, title: element.button, imagelink: element.link);
                   Navigator.push(context,  MaterialPageRoute(builder: (cx) {
                     return ImageSectionPage(sectionToGo);
                   }));
                   break;
                 case "Web" :
-                  sectionToGo = WebSection(id: 1, title: element.button, link: l[1]);
-                  launch(l[1]);
+                  launch(element.link);
+                  break;
+                case "PDF" :
+                  sectionToGo = PDFSection(id: 1, title: element.button, link: element.link);
+                  Navigator.push(context,  MaterialPageRoute(builder: (cx) {
+                    return PDFSectionPage(sectionToGo);
+                  }));
                   break;
                 default: sectionToGo = null;
               }

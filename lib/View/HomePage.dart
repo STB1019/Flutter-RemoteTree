@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:remote_tree/Model/Section.dart';
+import 'package:remote_tree/View/PDFSectionPage.dart';
+import 'package:remote_tree/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'ButtonSectionPage.dart';
@@ -31,8 +34,6 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      //Ho provato ad usare una appBar personalizzata leggermente curva
-      //drawer: Drawer(        child: buildDrawer(context),      ),
       appBar: AppBar(
         title: Text("Remote Tree"),
         actions: [
@@ -60,14 +61,18 @@ class _HomePageState extends State<HomePage> {
                   trailing: Icon(Icons.settings),
                   title: Text("Impostazioni"),
                   onTap: () {
-                    Scaffold.of(context)
-                        .showSnackBar(SnackBar(content: Text("TODO"), action: SnackBarAction(
-                      label: "Chiudi",
-                      onPressed: ()=> Scaffold.of(context).hideCurrentSnackBar(),
-                    ),duration: Duration(seconds: 1),));
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      content: Text("TODO"),
+                      action: SnackBarAction(
+                        label: "Chiudi",
+                        onPressed: () =>
+                            Scaffold.of(context).hideCurrentSnackBar(),
+                      ),
+                      duration: Duration(seconds: 1),
+                    ));
                   },
                 )));
-                return list;
+                return list; //Lista di bottoni
               }),
         ],
       ),
@@ -78,7 +83,8 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildBody() {
     var sectionCard = FutureBuilder(
-      future: currentData, //Necessario per evitare problemi nel caricamento
+      future: databaseHelper
+          .getCurrentData(), //Necessario per evitare problemi nel caricamento
       builder: (context, snapshot) {
         Widget widgetToShow;
         if (snapshot.hasError) {
@@ -101,7 +107,9 @@ class _HomePageState extends State<HomePage> {
           widgetToShow = Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  SizedBox(height: 50,),
+              SizedBox(
+                height: 50,
+              ),
               SizedBox(
                 child: CircularProgressIndicator(),
                 width: 60,
@@ -129,31 +137,39 @@ class _HomePageState extends State<HomePage> {
           child: Card(
             color: Colors.white70,
             child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        CircleAvatar(
-          radius: 50.0,
-          backgroundImage: NetworkImage("https://placekitten.com/200/300"),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        Text(
-            "Massimiliano Tummolo",
-            style: TextStyle(
-                fontSize: 20.0, fontWeight: FontWeight.w700,),
-        ),
-        SizedBox(
-            height: 5.0,
-        ),
-        Text(
-            "Amministratore",
-            style: TextStyle(
-                fontSize: 15.0, fontWeight: FontWeight.normal,),
-        ),
-      ],
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Hero(
+                  tag: "User",
+                  child: CircleAvatar(
+                    radius: 50.0,
+                    backgroundImage:
+                        NetworkImage("https://placekitten.com/200/300"),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Massimiliano Tummolo",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                Text(
+                  "Amministratore",
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
             ),
-          ) ,
+          ),
         ),
         sectionCard,
       ],
@@ -162,27 +178,6 @@ class _HomePageState extends State<HomePage> {
 }
 
 //Helper functions
-
-//Inutile
-ListView buildDrawer(BuildContext context) {
-  return ListView(
-    padding: EdgeInsets.zero,
-    children: [
-      UserAccountsDrawerHeader(
-        accountName: Text("Massimiliano Tummolo"),
-        accountEmail: Text("max.tummolo@gmail.com"),
-        currentAccountPicture: CircleAvatar(
-          backgroundColor: Theme.of(context).backgroundColor,
-          child: Text("M"),
-        ),
-      ),
-      ListTile(
-          title: Text("Settings"),
-          trailing: Icon(Icons.settings),
-          onTap: () => Navigator.of(context).pushNamed("/settings"))
-    ],
-  );
-}
 
 //TODO aggiornare per nuove tipologie di sezione
 Widget listTileFromSection(String title, Icon icon, Function onTap) {
@@ -209,7 +204,6 @@ List<Widget> buildCardSection(BuildContext cx, List<GenericSection> list) {
     padding: const EdgeInsets.all(10.0),
     child: Text(
       "Elenco Sezioni",
-      textAlign: TextAlign.center,
       style: TextStyle(
         color: Colors.white,
         fontSize: 25.0,
@@ -261,6 +255,16 @@ List<Widget> buildCardSection(BuildContext cx, List<GenericSection> list) {
           () => Navigator.push(cx, MaterialPageRoute(builder: (cx) {
                 return ImageSectionPage(section);
               }))));
+    } else if (section is PDFSection) {
+      widgets.add(listTileFromSection(
+          section.title,
+          Icon(
+            Icons.picture_as_pdf,
+            color: Colors.white,
+          ),
+          () => Navigator.push(cx, MaterialPageRoute(builder: (cx){
+            return PDFSectionPage(section);
+          }))));
     } else {
       return null;
     }

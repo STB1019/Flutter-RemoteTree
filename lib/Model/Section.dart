@@ -5,11 +5,13 @@ class ListSection {
     this.buttonSection,
     this.webSection,
     this.imageSection,
+    this.pdfSection,
   });
 
   List<ButtonSection> buttonSection;
   List<WebSection> webSection;
   List<ImageSection> imageSection;
+  List<PDFSection> pdfSection;
 
   factory ListSection.fromJson(String str) => ListSection.fromMap(json.decode(str));
 
@@ -18,7 +20,8 @@ class ListSection {
   factory ListSection.fromMap(Map<String, dynamic> json) => ListSection(
     buttonSection: List<ButtonSection>.from(json["buttonSection"].map((x) => ButtonSection.fromMap(x))),
     webSection: List<WebSection>.from(json["webSection"].map((x) => WebSection.fromMap(x))),
-    imageSection: List<ImageSection>.from(json["imageSection"].map((x)=> ImageSection.fromMap(x)))
+    imageSection: List<ImageSection>.from(json["imageSection"].map((x)=> ImageSection.fromMap(x))),
+    pdfSection: List<PDFSection>.from(json["pdfSection"].map((x)=> PDFSection.fromMap(x)))
   );
   factory ListSection.fromSQL(Map<String, dynamic> data) => ListSection.fromJson(data["value"]);
 
@@ -26,6 +29,7 @@ class ListSection {
     "buttonSection": List<dynamic>.from(buttonSection.map((x) => x.toMap())),
     "webSection": List<dynamic>.from(webSection.map((x) => x.toMap())),
     "imageSection" : List<dynamic>.from(imageSection.map((x) => x.toMap())),
+    "pdfSection" :List<dynamic>.from(pdfSection.map((x) => x.toMap()))
   };
   Map<String, dynamic> toSQL() => {
     "id" : 0,
@@ -39,6 +43,7 @@ class ListSection {
     res.addAll(buttonSection);
     res.addAll(webSection);
     res.addAll(imageSection);
+    res.addAll(pdfSection);
     //TODO Aggiungere le nuove tipologie di sezione
     res.sort((a, b){
       return a.id.compareTo(b.id);
@@ -85,10 +90,12 @@ class ButtonSection extends GenericSection {
 class ButtonLink {
   ButtonLink({
     this.button,
+    this.type,
     this.link,
   });
 
   String button;
+  String type;
   String link;
 
   factory ButtonLink.fromJson(String str) => ButtonLink.fromMap(json.decode(str));
@@ -97,12 +104,14 @@ class ButtonLink {
 
   factory ButtonLink.fromMap(Map<String, dynamic> json) => ButtonLink(
     button: json["button"],
+    type: json["type"],
     link: json["link"],
   );
 
   Map<String, dynamic> toMap() => {
     "button": button,
     "link": link,
+    "type" : type,
   };
 }
 
@@ -159,5 +168,33 @@ class ImageSection extends GenericSection {
     "id": id,
     "title": title,
     "imagelink": imagelink,
+  };
+}
+
+class PDFSection extends GenericSection {
+  PDFSection({
+    this.id,
+    this.title,
+    this.link,
+  });
+
+  int id;
+  String title;
+  String link;
+
+  factory PDFSection.fromJson(String str) => PDFSection.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory PDFSection.fromMap(Map<String, dynamic> json) => PDFSection(
+    id: json["id"],
+    title: json["title"],
+    link: json["link"],
+  );
+
+  Map<String, dynamic> toMap() => {
+    "id": id,
+    "title": title,
+    "link": link,
   };
 }

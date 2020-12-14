@@ -53,7 +53,7 @@ class DatabaseHelper {
  //I
  Future<ListSection> getCurrentData() async{
     var res = await _query();
-    var result = res.first;
+    var result = res.firstWhere((element) => element["id"] == 0 , orElse: () => null );
     return ListSection.fromSQL(result);
  }
 

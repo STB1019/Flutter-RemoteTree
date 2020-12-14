@@ -32,6 +32,7 @@ dependencies:
   path_provider: any
   url_launcher: any
   cached_network_image: any
+  flutter_cached_pdfview:  ^0.3.3
 
 
 dev_dependencies:
