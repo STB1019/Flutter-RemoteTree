@@ -14,12 +14,12 @@ Widget genericButton(String id) {
 }
 
 //Ancora da migliorare
-Widget genericText(String str, {bool bold = false}) {
+Widget genericText(String str, {bool bold = false, Color tcolr = Colors.white}) {
   return Text(
     str,
     textAlign: TextAlign.left,
     style: TextStyle(
-        color: Colors.white,
+        color: tcolr,
         fontSize: 19.0,
         fontWeight: (bold) ? FontWeight.bold : FontWeight.normal),
     maxLines: 3,

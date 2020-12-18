@@ -46,7 +46,7 @@ class _ImageSectionPageState extends State<ImageSectionPage> {
                   CachedNetworkImage(
                     imageUrl: imgLink,
                     progressIndicatorBuilder: (context, url, downloadProgress) =>
-                        CircularProgressIndicator(value: downloadProgress.progress),
+                        CircularProgressIndicator(value: downloadProgress.progress,backgroundColor: Colors.white,),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ],

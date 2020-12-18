@@ -26,8 +26,9 @@ class _ButtonSectionPageState extends State<ButtonSectionPage> {
         )));
     var buttons = List<Widget>();
     section.buttonlinks.forEach((element) {
-      buttons.add(FlatButton(padding: EdgeInsets.all(30.0),
-            color: Theme.of(context).buttonColor,
+      buttons.add(FlatButton
+            (padding: EdgeInsets.all(30.0),
+            color: Color(0xFFD3F1F8),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
             onPressed: () {
             var sectionToGo;
@@ -41,7 +42,7 @@ class _ButtonSectionPageState extends State<ButtonSectionPage> {
                 case "Web" :
                   launch(element.link);
                   break;
-                case "PDF" :
+                case "Pdf" :
                   sectionToGo = PDFSection(id: 1, title: element.button, link: element.link);
                   Navigator.push(context,  MaterialPageRoute(builder: (cx) {
                     return PDFSectionPage(sectionToGo);
@@ -51,7 +52,7 @@ class _ButtonSectionPageState extends State<ButtonSectionPage> {
               }
 
             },
-            child: genericText(element.button)),
+            child: genericText(element.button, tcolr: Colors.black)),
       );
     });
     return Scaffold(

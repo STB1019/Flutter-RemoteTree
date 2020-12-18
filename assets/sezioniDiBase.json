@@ -2,59 +2,64 @@
   "buttonSection" : [
     {
       "id": 0,
-      "title": "Informatica",
+      "title": "Sezione generica A",
       "buttonlinks": [
         {
-          "button": "Manda a 1",
+          "button": "Gattino",
           "type" : "Image",
           "link": "https://source.unsplash.com/random/300x200"
         },
         {
-          "button": "Manda a 2",
+          "button": "Medusa",
           "type" : "Image",
-          "link": "https://source.unsplash.com/random/300x200"
+          "link": "https://source.unsplash.com/_AjqGGafofE/1600x900"
         },
         {
-          "button": "Manda a 3",
+          "button": "Paesaggio",
+          "type" : "Image",
+          "link": "https://source.unsplash.com/WLUHO9A_xik/1600x900"
+        },
+        {
+          "button": "Sito IEEE",
           "type" : "Web",
-          "link": "https://lol.com"
+          "link": "https://www.ieee.org"
         }
       ]
     },
     {
       "id": 1,
-      "title" : "Analisi 1",
+      "title" : "Sezione generica B",
       "buttonlinks": [
         {
-          "button": "Manda a 1",
+          "button": "Pettirosso",
           "type" : "Image",
-          "link": "https://source.unsplash.com/random/300x200"
+          "link": "https://source.unsplash.com/EOiscqXPmkM/640x480"
         },
         {
-          "button": "Manda a 2",
+          "button": "Fotocamera",
           "type" : "Image",
-          "link": "https://source.unsplash.com/random/300x200"
+          "link": "https://source.unsplash.com/tlMNfElG87U/600x1000"
         },
         {
-          "button": "Manda a 3",
-          "type" : "Web",
-          "link": "https://lol.com"
+          "button": "Documento scemo",
+          "type" : "Pdf",
+          "link": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
         }
       ]
     },
     {
       "id": 3,
-      "title" : "Analisi 2",
+      "title" : "Immagini di gatti",
       "buttonlinks": [
         {
-          "button": "Manda a 1",
+          "button": "Gatto puccioso",
           "type" : "Image",
-          "link": "https://source.unsplash.com/random/300x200"
+          "link": "https://source.unsplash.com/ZCHj_2lJP00/600x800"
         },
         {
-          "button": "Manda a 2",
+          "button": "Gatto curioso",
           "type" : "Image",
-          "link": "https://source.unsplash.com/random/300x200"
+          "link": "https://source.unsplash.com/hxn2HjZHyQE/300x500"
         }
       ]
     }
@@ -79,24 +84,24 @@
   "imageSection" : [
     {
       "id" : 7,
-      "title" : "Immagine1",
-      "imagelink" : "https://source.unsplash.com/random/300x200"
+      "title" : "Latte e biscotti",
+      "imagelink" : "https://source.unsplash.com/NzP9oPxmiQw/600x1000"
     },
     {
       "id" : 8,
-      "title" : "Immagine2",
-      "imagelink" : "https://source.unsplash.com/random/300x200"
+      "title" : "Drone",
+      "imagelink" : "https://source.unsplash.com/oSvR0wGYUBs/600x800"
     }
   ],
   "pdfSection" : [
     {
       "id" : 9,
-      "title" : "PDF1",
+      "title" : "Api for dummies",
       "link" : "https://www.ibm.com/downloads/cas/GJ5QVQ7X"
     },
     {
       "id" : 10,
-      "title" : "PDF2",
+      "title" : "Appunti automatica",
       "link" : "https://drive.google.com/uc?export=download&id=12krdv_la7B9JCyUfllbmlhpzLChiOQU6"
     }
   ]

@@ -19,7 +19,7 @@ class _PDFSectionPageState extends State<PDFSectionPage> {
       //Qui posso usare un PDFcontroller per gestire robe in più
     ).cachedFromUrl(
       section.link,
-      placeholder: (double progress) => Center(child: CircularProgressIndicator()),
+      placeholder: (double progress) => LinearProgressIndicator(value: progress,),
       errorWidget: (dynamic error) => Center(child: Text(error.toString())),
     );
     return Scaffold(

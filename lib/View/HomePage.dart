@@ -1,8 +1,4 @@
-import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:remote_tree/Model/Section.dart';
 import 'package:remote_tree/View/PDFSectionPage.dart';
 import 'package:remote_tree/main.dart';
@@ -61,15 +57,7 @@ class _HomePageState extends State<HomePage> {
                   trailing: Icon(Icons.settings),
                   title: Text("Impostazioni"),
                   onTap: () {
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text("TODO"),
-                      action: SnackBarAction(
-                        label: "Chiudi",
-                        onPressed: () =>
-                            Scaffold.of(context).hideCurrentSnackBar(),
-                      ),
-                      duration: Duration(seconds: 1),
-                    ));
+                    Navigator.of(context).pushNamed("/settings");
                   },
                 )));
                 return list; //Lista di bottoni
@@ -82,54 +70,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildBody() {
-    var sectionCard = FutureBuilder(
-      future: databaseHelper
-          .getCurrentData(), //Necessario per evitare problemi nel caricamento
-      builder: (context, snapshot) {
-        Widget widgetToShow;
-        if (snapshot.hasError) {
-          widgetToShow = Center(
-              child: Text(
-                  "Errore nell'inizializzazione del DB \n Si prega ti premere il bottone in alto a destra per aggiornare"));
-          print(snapshot.error);
-        } else if (snapshot.hasData &&
-            snapshot.connectionState == ConnectionState.done) {
-          widgetToShow = Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Card(
-                elevation: 5,
-                child: Column(
-                    children: buildCardSection(
-                        context, snapshot.data.getAllSections()))),
-          );
-        } else {
-          // Dati non ancora pronti
-          widgetToShow = Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              SizedBox(
-                height: 50,
-              ),
-              SizedBox(
-                child: CircularProgressIndicator(),
-                width: 60,
-                height: 60,
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text(
-                  'Attesa risultati...',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                  ),
-                ),
-              ),
-            ]),
-          );
-        }
-        return widgetToShow;
-      },
-    );
+    var sectionCard = buildFutureBuilder();
     return ListView(
       children: [
         Container(
@@ -174,6 +115,58 @@ class _HomePageState extends State<HomePage> {
         sectionCard,
       ],
     );
+  }
+
+  FutureBuilder<ListSection> buildFutureBuilder() {
+    return FutureBuilder(
+    future: databaseHelper
+        .getCurrentData(), //Necessario per evitare problemi nel caricamento
+    builder: (context, snapshot) {
+      Widget widgetToShow;
+      if (snapshot.hasError) {
+        widgetToShow = Center(
+            child: Text(
+                "Errore nell'inizializzazione del DB "
+                    "\n Si prega ti premere il bottone in alto a destra per aggiornare", style: TextStyle(fontWeight: FontWeight.bold),));
+        print(snapshot.error);
+      } else if (snapshot.hasData &&
+          snapshot.connectionState == ConnectionState.done) {
+        widgetToShow = Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Card(
+              elevation: 5,
+              child: Column(
+                  children: buildCardSection(
+                      context, snapshot.data.getAllSections()))),
+        );
+      } else {
+        // Dati non ancora pronti
+        widgetToShow = Center(
+          child:
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            SizedBox(
+              height: 50,
+            ),
+            SizedBox(
+              child: CircularProgressIndicator(),
+              width: 60,
+              height: 60,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 16),
+              child: Text(
+                'Attesa risultati...',
+                style: TextStyle(
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+          ]),
+        );
+      }
+      return widgetToShow;
+    },
+  );
   }
 }
 

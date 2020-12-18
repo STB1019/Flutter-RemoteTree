@@ -25,13 +25,24 @@ initDatabase() async{
   // fra le varie tipologie di sezione
   databaseHelper = DBMS.DatabaseHelper();
   //Inizializzazione DB
-  //Parsing json in init -> TODO ogni volta il db viene ri-inizializzato
   String contents = await rootBundle.loadString('assets/sezioniDiBase.json');
   var listSections = ListSection.fromJson(contents);
   //Inserimento sezioni
   databaseHelper.initDb();
-  databaseHelper.insertCompleteSection(listSections);
-  print("Sezioni inserite");
+
+  databaseHelper.getCurrentData().then((value) {
+    //DB vuoto
+    if (value == null){
+      databaseHelper.insertCompleteSection(listSections);
+    }
+    //Asset e db differiscono mi baso sull'asset
+    else if (value != listSections){
+      databaseHelper.insertCompleteSection(listSections);
+    }
+    //arrivato qui il db è già pieno
+    print("Sezioni inserite");
+  });
+
 }
 
 class MyApp extends StatelessWidget {
