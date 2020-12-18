@@ -1,16 +1,17 @@
 # remote_tree
 
-A new Flutter application.
+Questa applicazione è stata sviluppata come un test del framework Flutter. La sua utilità è generare automaticamente una struttura di widgets da un file .json.
 
-## Getting Started
+## Cosa supporta?
 
-This project is a starting point for a Flutter application.
+Allo stato dell'arte remote_tree permette di specificare una serie di sezioni.
+* ImageSection che permettono di specificare immagini da url
+* WebSection che permettono di specificare url dove andare (in realtà anche numeri di cellulare da chiamare per come è implementato)
+* PDFSection che permettono di specificare pdf da url
+* ButtonSection che permettono di specificare un gruppo di sezioni delle tipologie appena elencate
 
-A few resources to get you started if this is your first Flutter project:
+## Chi l'ha sviluppata?
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Questa app è stata sviluppata dai membri dell'IEEE Student Branch di Brescia negli ultimi 3 mesi del 2020 sotto la supervisione di Andrea Rossi.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Licenza
