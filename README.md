@@ -1,20 +1,20 @@
 # remote_tree
 
-Questa applicazione è stata sviluppata come un test del framework Flutter. La sua utilità è generare automaticamente una struttura di widgets da un file .json.
+This application was developed as a test of the Flutter framework. Its purpose is to automatically generate a widgets structure from a .json file.
 
-## Cosa supporta?
+## How does it work?
 
-Allo stato dell'arte remote_tree permette di specificare una serie di sezioni.
-* ImageSection che permettono di specificare immagini da url
-* WebSection che permettono di specificare url dove andare (in realtà anche numeri di cellulare da chiamare per come è implementato)
-* PDFSection che permettono di specificare pdf da url
-* ButtonSection che permettono di specificare un gruppo di sezioni delle tipologie appena elencate
+At the moment remote_tree allows you to specify different types of sections.
+* ImageSection which allow to show images from urls
+* WebSection which allow to show a web page (actually also mobile numbers to call as it is implemented)
+* PDFSection which allow you to specify pdf from url
+* ButtonSection which allow you to specify a group of sections of the types listed above
 
-La struttura di base della app è definita nel file "assets/sezioniDiBase.json" che può essere modificato per inserire nuove strutture.
-Future implementazioni permetteranno di specificare un file .json tramite url oppure dal file system.
+The basic structure of the app is defined in the "assets / sectionsDiBase.json" file which can be modified to insert new structures.
+Future implementations will allow you to specify a .json file via url or from the file system.
 
-## Chi l'ha sviluppata?
+## Developers
 
-Questa app è stata sviluppata dai membri dell'IEEE Student Branch di Brescia negli ultimi 3 mesi del 2020 sotto la supervisione di Andrea Rossi.
+This app was developed by the members of the IEEE Student Branch of Brescia in the last 3 months of 2020 under the guidance of Andrea Rossi.
 
-## Licenza
+## Screenshots
